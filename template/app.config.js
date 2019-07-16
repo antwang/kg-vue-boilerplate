@@ -1,6 +1,6 @@
 module.exports =  {
   // 配置dll入口例如{vue: ['vue', 'vue-router']} 值必须是数组
-  dllEntry:{}
+  dllEntry:{},
   // 静态资源的路径
   publicPath: "",
   // 资源输出目录，默认为dist
