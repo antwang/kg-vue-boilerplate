@@ -2,7 +2,9 @@ const path = require("path");
 const VueLoaderPlugin = require("vue-loader/lib/plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 // 样式检查插件
+{{#stylelint}}
 const StyleLintPlugin = require("stylelint-webpack-plugin");
+{{/stylelint}}
 // 雪碧图插件
 const SpritesmithPlugin = require("webpack-spritesmith");
 // 调试工具插件
@@ -17,7 +19,16 @@ const webpack = require("webpack");
 const config = require("../app.config");
 const parseArgs = require("minimist");
 const { env } = parseArgs(process.argv.slice(2));
+const { entry } = require("./webpack.config.dll");
+const dllNames = Object.keys(entry);
+const dllRefs = dllNames.map(dllName => {
+  return new webpack.DllReferencePlugin({
+    manifest: require("../dll/" + dllName + ".manifest.json")
+  });
+});
+
 const baseConf = {
+  mode: "development",
   entry: { app: path.resolve(__dirname, "../src/app.js") },
   output: {
     filename: "js/[name].js",
@@ -46,7 +57,7 @@ const baseConf = {
         loader: "vue-loader"
       },
       // 添加url-loader
-      configureURLLoader(env),
+      ...configureURLLoader(env),
       configureCSSLoader(env)
     ]
   },
@@ -56,9 +67,7 @@ const baseConf = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "../public/index.html")
     }),
-    new webpack.DllReferencePlugin({
-      manifest: require("./dll/vue.manifest.json")
-    }),
+    ...dllRefs,
     // 将dll文件添加到html中，必须放在htmlwebpackPlugin后面
     new AddAssetHtmlPlugin({
       filepath: path.resolve(__dirname, "../dll/*.dll.js"),
@@ -68,9 +77,11 @@ const baseConf = {
     // 是否启用调试工具
     new DebugPlugin({ enable: config.enableDebugTool }),
     // 是否启用stylelint
+    {{#stylelint}}
     new StyleLintPlugin({
       files: ["src/**/*.{vue, css, sass, scss}", "!src/assets/generated/"]
     }),
+    {{/stylelint}}
     // 是否启用雪碧图
     new SpritesmithPlugin({
       src: {

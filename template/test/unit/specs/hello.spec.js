@@ -5,32 +5,22 @@ import { expect } from "chai";
 
 describe("Hello", () => {
   const wrapper = mount(Hello);
-  const vm = wrapper.vm;
-  // 检查原始组件选项
-  it("has a created hook", () => {
-    expect(Hello.created).to.be.a("function");
-  });
 
   // 评估原始组件选项中的函数的结果
   it("sets the correct default data", () => {
     expect(Hello.data).to.be.a("function");
     const defaultData = Hello.data();
-    expect(defaultData.msg).to.equal("hello");
-  });
-
-  // 检查 mount 中的组件实例
-  it("correctly sets the message when created", () => {
-    expect(vm.msg).to.equal("world");
+    expect(defaultData.user).to.equal("FE");
   });
 
   // 创建一个实例并检查渲染输出
   it("renders the correct message", () => {
-    expect(wrapper.find("p").text()).to.equal("world");
+    expect(wrapper.find("h2").text()).to.equal("你好 FE ，欢迎使用项目模板！");
   });
 
   // 设置组件的data
   it("correctly sets the message", () => {
-    wrapper.setData({ msg: "hello world" });
-    expect(wrapper.vm.msg).to.equal("hello world");
+    wrapper.setData({ user: "front end" });
+    expect(wrapper.vm.user).to.equal("front end");
   });
 });

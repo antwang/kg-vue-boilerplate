@@ -2,6 +2,7 @@ const merge = require("webpack-merge");
 const baseConf = require("./webpack.config.base");
 const { configureURLLoader, configureBabelLoader } = require("./util");
 const config = require("../app.config");
+const path = require("path");
 let devServer = {
   proxy: config.proxy || {},
   contentBase: path.resolve(__dirname, "../dist"),
