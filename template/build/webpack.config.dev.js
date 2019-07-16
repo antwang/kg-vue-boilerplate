@@ -4,7 +4,7 @@ const { configureURLLoader, configureBabelLoader } = require("./util");
 const config = require("../app.config");
 let devServer = {
   proxy: config.proxy || {},
-  contentBase: "dist",
+  contentBase: path.resolve(__dirname, "../dist"),
   hot: true,
   clientLogLevel: "warning",
   compress: true,

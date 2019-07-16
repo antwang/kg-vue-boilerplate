@@ -18,15 +18,14 @@ const config = require("../app.config");
 const parseArgs = require("minimist");
 const { env } = parseArgs(process.argv.slice(2));
 const baseConf = {
-  context: path.resolve(__dirname, "../"),
-  entry: { app: "./src/app.js" },
+  entry: { app: path.resolve(__dirname, "../src/app.js") },
   output: {
     filename: "js/[name].js",
-    path: config.outputDir || "dist",
+    path:  path.resolve(__dirname, "..", config.outputDir || "dist"),
     publicPath: config.publicPath || ''
   },
   resolve: {
-    modules: ["./node_modules", "./src/assets/generated"]
+    modules: ["../node_modules", "../src/assets/generated"]
   },
   module: {
     rules: [
@@ -55,14 +54,14 @@ const baseConf = {
     new VueLoaderPlugin(),
     new HardSourceWebpackPlugin(),
     new HtmlWebpackPlugin({
-      template: "./public/index.html"
+      template: path.resolve(__dirname, "../public/index.html")
     }),
     new webpack.DllReferencePlugin({
       manifest: require("./dll/vue.manifest.json")
     }),
     // 将dll文件添加到html中，必须放在htmlwebpackPlugin后面
     new AddAssetHtmlPlugin({
-      filepath: "./dll/*.dll.js",
+      filepath: path.resolve(__dirname, "../dll/*.dll.js"),
       outputPath: "js",
       publicPath: "js"
     }),
@@ -75,22 +74,22 @@ const baseConf = {
     // 是否启用雪碧图
     new SpritesmithPlugin({
       src: {
-        cwd: "./src/assets/sprites",
+        cwd: path.resolve(__dirname, "../src/assets/sprites"),
         glob: "*.png"
       },
       customTemplates: {
         function_based_template: templateFunction
       },
       target: {
-        image: "./src/assets/generated/sprite.png",
+        image: path.resolve(__dirname, "../src/assets/generated/sprite.png"),
         css: [
           [
-            "./src/assets/generated/sprite2.scss",
+            path.resolve(__dirname, "../src/assets/generated/sprite2.scss"),
             {
               format: "function_based_template"
             }
           ],
-          "./src/assets/generated/sprite.scss"
+          path.resolve(__dirname, "../src/assets/generated/sprite.scss")
         ]
       },
       apiOptions: {
