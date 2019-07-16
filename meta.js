@@ -1,4 +1,3 @@
-const { installDependencies, runLintFix, printMessage } = require("./utils");
 module.exports = {
   helpers: {
     if_or(v1, v2, options) {
@@ -13,61 +12,39 @@ module.exports = {
     name: {
       type: "string",
       required: true,
-      message: "Project name"
+      message: "项目名"
     },
     description: {
-      when: "isNotTest",
       type: "string",
       required: false,
-      message: "Project description",
-      default: "A Vue.js project"
+      message: "项目描述",
+      default: "vue项目"
     },
     author: {
-      when: "isNotTest",
       type: "string",
-      message: "Author"
+      message: "Author",
+      required: false,
+      default: ""
     },
     router: {
-      when: "isNotTest",
       type: "confirm",
-      message: "Install vue-router?"
+      message: "是否安装vue-router？"
     },
-    lint: {
-      when: "isNotTest",
+    eslint: {
       type: "confirm",
-      message: "Use ESLint to lint your code?"
+      message: "是否使用 eslint？"
+    },
+    stylelint: {
+      type: "confirm",
+      message: "是否使用 stylelint？"
     },
     unit: {
-      when: "isNotTest",
       type: "confirm",
-      message: "Set up unit tests"
+      message: "是否使用单元测试？"
     },
     e2e: {
-      when: "isNotTest",
       type: "confirm",
-      message: "Setup e2e tests with Nightwatch?"
-    },
-    autoInstall: {
-      when: "isNotTest",
-      type: "list",
-      message: "项目创建完成后是否自动运行 `npm install` 安装依赖? (推荐)",
-      choices: [
-        {
-          name: "Yes, use NPM",
-          value: "npm",
-          short: "npm"
-        },
-        {
-          name: "Yes, use Yarn",
-          value: "yarn",
-          short: "yarn"
-        },
-        {
-          name: "No, I will handle that myself",
-          value: false,
-          short: "no"
-        }
-      ]
+      message: "是否使用 e2e 测试？"
     }
   },
   // 定义文件与功能选项之间的映射关系，如果用户没有选择对应的功能，则某些文件将不会渲染。
@@ -81,23 +58,6 @@ module.exports = {
     "test/e2e/**/*": "e2e",
     "src/router/**/*": "router"
   },
-  complete: function(data, { chalk }) {
-    const green = chalk.green;
-    const cwd = path.join(process.cwd(), data.inPlace ? "" : data.destDirName);
-
-    if (data.autoInstall) {
-      installDependencies(cwd, data.autoInstall, green)
-        .then(() => {
-          return runLintFix(cwd, data, green);
-        })
-        .then(() => {
-          printMessage(data, green);
-        })
-        .catch(e => {
-          console.log(chalk.red("Error:"), e);
-        });
-    } else {
-      printMessage(data, chalk);
-    }
-  }
+  completeMessage:
+    "{{#inPlace}}To get started:\n\n  npm install\n  npm start{{else}}To get started:\n\n  cd {{destDirName}}\n  npm install\n  npm start{{/inPlace}}"
 };
