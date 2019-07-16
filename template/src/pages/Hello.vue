@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="title">你好 {{user}} ，欢迎使用项目模板！</h2>
+    <h2 class="title">你好 \{{user}} ，欢迎使用项目模板！</h2>
   </div>
 </template>
 <script>
