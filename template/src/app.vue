@@ -4,7 +4,7 @@
      {{#router}}
     <router-view/>
     {{else}}
-    <HelloWorld/>
+    <Hello/>
     {{/router}}
   </div>
 </template>
@@ -15,7 +15,7 @@ import Hello from "./pages/Hello"
 {{/unless}}
 export default {
   name: "App",
-  {{#router}}{{else}},
+  {{#router}}{{else}}
   components: {
     Hello
   }{{/router}}

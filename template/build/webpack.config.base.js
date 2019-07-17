@@ -36,6 +36,7 @@ const baseConf = {
     publicPath: config.publicPath || ''
   },
   resolve: {
+    extensions: [".vue", ".js"],
     modules: ["../node_modules", "../src/assets/generated"]
   },
   module: {
