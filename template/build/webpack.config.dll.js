@@ -2,6 +2,12 @@ var path = require("path");
 var webpack = require("webpack");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const { dllEntry } = require("../app.config");
+const dllEntryKeys = Object.keys(dllEntry);
+dllEntryKeys.forEach(key =>{
+  if(typeof dllEntry[key] == 'string'){
+    dllEntry[key] = [dllEntry[key]]
+  }
+})
 let entry = Object.assign(
   {
     vue: ["vue"]

@@ -7,6 +7,29 @@ const CleanWebpackPlugin = require("clean-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const OptimizeCSSPlugin = require("optimize-css-assets-webpack-plugin");
 const config = require("../app.config");
+let browserslist = {
+  legacy: ["> 1%", "last 2 versions", "not ie <= 8"],
+  modern: [
+    "last 2 Chrome versions",
+    "not Chrome < 60",
+    "last 2 Safari versions",
+    "not Safari < 10.1",
+    "last 2 iOS versions",
+    "not iOS < 10.3",
+    "last 2 Firefox versions",
+    "not Firefox < 54",
+    "last 2 Edge versions",
+    "not Edge < 15"
+  ]
+}
+Object.keys(config.browserslist).forEach(key =>{
+  if(typeof config.browserslist[key] == 'string' ){
+    browserslist[key] = [config.browserslist[key]]
+  } else if(Array.isArray(config.browserslist[key])) {
+    browserslist[key] = config.browserslist[key]
+  }
+})
+
 /**
  * 返回生产环境的配置
  *
@@ -14,7 +37,6 @@ const config = require("../app.config");
  * @param {String} buildMode
  */
 module.exports = function(env = "test", buildMode = "common") {
-  let browserslist = null;
   // 如果不是合法的值，则默认使用test
   env = env === "prod" ? env : "test";
 
@@ -40,7 +62,7 @@ module.exports = function(env = "test", buildMode = "common") {
 
   // 构建模式是modern时
   if (buildMode === "modern") {
-    browserslist = config.browserslist.modern;
+    browserslist = browserslist.modern;
     plugins.push(
       new ModernBuildPlugin({ modern: true }),
       new CleanWebpackPlugin({
@@ -51,7 +73,7 @@ module.exports = function(env = "test", buildMode = "common") {
 
   // 构建模式是legacy时
   if (buildMode === "legacy") {
-    browserslist = config.browserslist.legacy;
+    browserslist = browserslist.legacy;
     plugins.push(
       new ModernBuildPlugin({ modern: false }),
       new CleanWebpackPlugin()

@@ -1,6 +1,6 @@
 module.exports =  {
-  // 配置dll入口例如{vue: ['vue', 'vue-router']} 值必须是数组
-  dllEntry:{},
+  // 配置dll入口
+  dllEntry: {},
   // 静态资源的路径
   publicPath: "",
   // 资源输出目录，默认为dist
@@ -11,31 +11,35 @@ module.exports =  {
   proxy: {},
   // 是否默认打开浏览器
   autoOpenBrowser: true,
+
   // devserver 默认端口号
   devServerport: 3000,
   mockServerPort: 8000,
-  // ftp登录
+
+  // 部署的服务器类型：ecs|oss。默认为oss
+  deployType: "",
+
+  // 只有当deployType为ecs时才需要配置该选项
+  ECSAccount: {
+    host: "",
+    port: "",
+    user: ""
+  },
+
+  // 只有当deployType为oss时才需要配置该选项
   ftpAccount: {
     host: "",
     port: "",
     user: "",
     password: ""
   },
-  deployDir: '',
-  // 现代模式下指定浏览器的范围
+
+  // 部署的目录
+  deployDir: "",
+
+  // 指定浏览器的范围
   browserslist: {
-    legacy: ["> 1%", "last 2 versions", "Firefox ESR"],
-    modern: [
-      "last 2 Chrome versions",
-      "not Chrome < 60",
-      "last 2 Safari versions",
-      "not Safari < 10.1",
-      "last 2 iOS versions",
-      "not iOS < 10.3",
-      "last 2 Firefox versions",
-      "not Firefox < 54",
-      "last 2 Edge versions",
-      "not Edge < 15"
-    ]
+    legacy: "",
+    modern: ""
   }
 };

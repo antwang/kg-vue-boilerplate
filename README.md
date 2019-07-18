@@ -6,8 +6,8 @@ kgt-cli 的项目模板。
 
 ```
 $ npm install -g kgt-cli
-$ kgt init webpack-simple my-project
+$ kgt init kg-vue-boilerplate my-project
 $ cd my-project
 $ npm install
-$ npm run dev
+$ npm start
 ```
