@@ -1,4 +1,4 @@
-const {ftpAccount, ECSAccount, outputDir, deployDir, deployType} = require("../app.config");
+let {ftpAccount, ECSAccount, outputDir, deployDir, deployType} = require("../app.config");
 outputDir = outputDir || 'dist';
 
 if(deployType == 'oss'){
